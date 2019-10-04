@@ -1,0 +1,121 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<script>
+			var lunchOrders = [];
+
+			// Order object constructor
+			function Order(firstName, lastName, period, item)
+			{
+				this.firstName = firstName;
+				this.lastName = lastName;
+				this.period = period;
+				this.item = item;
+			}
+
+			function placeOrder()
+			{
+				firstName = document.getElementById("firstName").value;
+				lastName = document.getElementById("lastName").value;
+				period = document.getElementById("period").value;
+				item = document.getElementById("order").value;
+
+				// Check for blank selections
+				if (firstName == "" || lastName == "" || period == "" || item == "")
+				{
+					// Warn them to complete the form before submitting
+					return alert("Please complete the order form!");
+				}
+
+				// Create a new order object and add it to the list
+				let newOrder = new Order(firstName, lastName, period, item);
+				lunchOrders.push(newOrder);
+			}
+
+			function displayOrder(curOrder, index)
+			{
+				let orderList =	document.getElementById("orderList");
+				// Create new row at the bottom of the table
+				let row = orderList.insertRow(-1);
+				// Create a cell for each property of the order
+				row.insertCell(0).innerHTML = curOrder.firstName;
+				row.insertCell(1).innerHTML = curOrder.lastName;
+				row.insertCell(2).innerHTML = curOrder.period;
+				row.insertCell(3).innerHTML = curOrder.item;
+			}
+
+			function displayOrders()
+			{
+				// Go through table & clear out old rows
+				let orderList =	document.getElementById("orderList");
+				while(orderList.rows.length > FIRSTROW)
+				{
+					orderList.deleteRow(FIRSTROW);
+				}
+
+				// Display all lunch orders
+				lunchOrders.forEach(displayOrder);
+			}
+		</script>
+		<style>
+			label
+			{
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<form>
+				<div class="form-row">
+					<div id="col">
+						<label for="firstName">First Name</label>
+						<input class="form-control" type="text" placeholder="First Name" id="firstName">
+					</div>
+					<div id="col">
+						<label for="period">Lunch Period</label>
+						<select class="form-control" id="period">
+							<option></option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+						</select>
+					</div>
+				</div>
+				<br>
+				<div class="form-row">
+					<div id="col">
+						<label for="lastName">Last Name</label>
+						<input class="form-control" type="text" placeholder="Last Name" id="lastName">
+					</div>
+					
+					<div id="col">
+						<label for="order">Order</label>
+						<select class="form-control" id="order">
+							<option></option>
+							<option value="Sandwich">Sandwich</option>
+							<option value="Hot Meal">Hot Meal</option>
+							<option value="Special">Special</option>
+						</select>
+					</div>
+				</div>
+			</form>
+			<button onclick="placeOrder();" class="btn btn-primary">Place Order</button>
+			<button onclick="displayOrders();" class="btn btn-primary">Display Orders</button>
+		</div>
+		<br>
+		<div class="container">
+			<table id="orderList" class="table table-bordered">
+				<thead class="thead-dark">
+					<tr>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Lunch Period</th>
+						<th>Lunch Order</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</body>
+</html>
